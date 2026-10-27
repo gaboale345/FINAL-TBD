@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migración de Base de Datos y Pruebas de Escalabilidad · UPDS 2026</title>
+  <meta name="description" content="Presentación web de alta gama editorial sobre la migración técnica de PostgreSQL a MySQL 8.0 y evaluación de escalabilidad bajo concurrencia.">
+  
+  <!-- Preconexión a Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos del Sistema de Diseño Editorial -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Barra de progreso superior interactiva (gradiente coral -> violeta) -->
+  <div class="progress-container" aria-hidden="true">
+    <div id="top-progress-bar" class="progress-bar"></div>
+  </div>
+
+  <div id="presentation-app">
+
+    <!-- ==================================================================
+         HUD SUPERIOR: MARCA, ESTADO Y HERRAMIENTAS
+         ================================================================== -->
+    <header class="hud-header">
+      <div class="hud-brand">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>UPDS · Proyecto Final</span>
+      </div>
+
+      <div class="hud-actions">
+        <button id="btn-hud-index" class="hud-btn" aria-label="Abrir índice de contenido" title="Índice (O)">
+          <span>Índice</span>
+          <span class="kbd-shortcut">O</span>
+        </button>
+        <button id="btn-hud-grid" class="hud-btn" aria-label="Abrir vista en cuadrícula" title="Cuadrícula (G)">
+          <span>Cuadrícula</span>
+          <span class="kbd-shortcut">G</span>
+        </button>
+        <button id="btn-hud-presenter" class="hud-btn" aria-label="Abrir modo presentador" title="Modo Presentador (P)">
+          <span>Presentador</span>
+          <span class="kbd-shortcut">P</span>
+        </button>
+        <button id="btn-hud-fullscreen" class="hud-btn" aria-label="Alternar pantalla completa" title="Pantalla completa (F)">
+          <span>Pantalla</span>
+          <span class="kbd-shortcut">F</span>
+        </button>
+        <button id="btn-hud-theme" class="hud-btn" aria-label="Alternar modo oscuro o claro" title="Cambiar tema (T)">
+          <span id="theme-btn-icon">🌓</span>
+          <span id="theme-btn-text">Tema</span>
+          <span class="kbd-shortcut">T</span>
+        </button>
+        <button id="btn-hud-import" class="hud-btn" aria-label="Importar imágenes desde JSON" title="Importar JSON">
+          <span>Importar</span>
+        </button>
+        <button id="btn-hud-export" class="hud-btn" aria-label="Exportar imágenes a JSON" title="Exportar JSON">
+          <span>Exportar</span>
+        </button>
+        <button id="btn-hud-clear" class="hud-btn" aria-label="Limpiar imágenes locales" title="Limpiar imágenes" style="color:var(--accent);">
+          <span>Limpiar</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================================================================
+         ESCENARIO PRINCIPAL (ASPECT RATIO 16:9 CON LETTERBOXING)
+         ================================================================== -->
+    <main class="stage-wrapper">
+      <div class="slide-deck" id="slide-deck-container">
+        <!-- Las 13 diapositivas se inyectan dinámicamente desde slides.js -->
+      </div>
+    </main>
+
+    <!-- ==================================================================
+         HUD INFERIOR: CONTADOR POLITE, FLECHAS Y ATAJOS
+         ================================================================== -->
+    <footer class="hud-footer">
+      <div class="keyboard-hint" aria-hidden="true">
+        <span>Navegación:</span>
+        <span class="kbd-shortcut">←</span>
+        <span class="kbd-shortcut">→</span>
+        <span class="kbd-shortcut">Espacio</span>
+        <span class="kbd-shortcut">Esc</span>
+      </div>
+
+      <div class="footer-nav-controls">
+        <button id="nav-prev-btn" class="nav-arrow-btn" aria-label="Diapositiva anterior" title="Anterior (←)">
+          &#8592;
+        </button>
+        
+        <div class="slide-counter" aria-live="polite" aria-atomic="true">
+          <span id="current-slide-num">01</span> / 13
+        </div>
+
+        <button id="nav-next-btn" class="nav-arrow-btn" aria-label="Siguiente diapositiva" title="Siguiente (→)">
+          &#8594;
+        </button>
+      </div>
+
+      <div style="font-size:0.75rem; color:var(--ink-soft); font-weight:500;">
+        100% Local Storage · Sin Servidor
+      </div>
+    </footer>
+
+    <!-- Dots laterales de navegación rápida -->
+    <nav id="lateral-dots" class="lateral-dots" aria-label="Puntos de navegación rápida"></nav>
+
+  </div>
+
+  <!-- ==================================================================
+       OVERLAYS Y MODALES ACCESIBLES
+       ================================================================== -->
+
+  <!-- 1. Overlay de Índice de Contenido (O) -->
+  <div id="index-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="index-overlay-title" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3 id="index-overlay-title">Índice de la Presentación</h3>
+        <button class="modal-close-btn" aria-label="Cerrar índice">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="index-list-container" class="index-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Overlay de Vista en Cuadrícula (G) -->
+  <div id="grid-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="grid-overlay-title" aria-hidden="true">
+    <div class="modal-panel grid-view-panel">
+      <div class="modal-header">
+        <h3 id="grid-overlay-title">Vista General en Cuadrícula (13 Slides)</h3>
+        <button class="modal-close-btn" aria-label="Cerrar vista en cuadrícula">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="grid-slides-wrapper" class="grid-slides-wrapper"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Overlay Modo Presentador (P) -->
+  <div id="presenter-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="presenter-overlay-title" aria-hidden="true">
+    <div class="modal-panel presenter-panel">
+      <div class="modal-header">
+        <h3 id="presenter-overlay-title">Consola del Presentador</h3>
+        <button class="modal-close-btn" aria-label="Cerrar consola de presentador">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="presenter-stats">
+          <div class="presenter-card">
+            <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); margin-bottom:6px;">Tiempo Transcurrido</div>
+            <div id="presenter-stopwatch" class="presenter-timer">00:00</div>
+            <div style="font-size:0.75rem; color:var(--ink-soft); margin-top:4px;">Objetivo: 15:00 min</div>
+          </div>
+          <div class="presenter-card">
+            <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); margin-bottom:6px;">Ritmo Recomendado</div>
+            <div style="font-family:'Fraunces', serif; font-size:1.8rem; font-weight:700; color:var(--accent-2); margin-top:8px;">~65 seg</div>
+            <div style="font-size:0.75rem; color:var(--ink-soft); margin-top:4px;">Por diapositiva</div>
+          </div>
+        </div>
+        <div style="background:var(--bg-2); padding:var(--space-4); border-radius:var(--radius-md); border:1px solid var(--line);">
+          <h4 style="font-size:0.9rem; margin-bottom:8px; color:var(--ink);">Consejos de Exposición Técnica:</h4>
+          <ul style="padding-left:18px; font-size:0.86rem; color:var(--ink-soft); line-height:1.6;">
+            <li>Mantenga el enfoque en los resultados funcionales y la concordancia 1:1 entre PostgreSQL y MySQL.</li>
+            <li>Destaque la herramienta <code>mysqlslap</code> al abordar los escenarios de concurrencia progresiva.</li>
+            <li>Enfatice el principio de mínimo privilegio: la app jamás usó credenciales <code>root</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Dialog Modal Custom para Confirmaciones y Metadatos -->
+  <div id="dialog-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-hidden="true">
+    <div class="modal-panel" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 id="dialog-title">Confirmación</h3>
+        <button class="modal-close-btn" aria-label="Cerrar cuadro de diálogo">&times;</button>
+      </div>
+      <div id="dialog-body" class="modal-body"></div>
+      <div class="dialog-actions" style="padding:0 var(--space-5) var(--space-4) var(--space-5);">
+        <button class="btn-secondary modal-close-btn" aria-label="Cancelar operación">Cancelar</button>
+        <button id="dialog-confirm-btn" class="btn-primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor flotante de notificaciones Toast -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Inputs invisibles para subida de imagen e importación JSON -->
+  <input type="file" id="slide-image-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" style="display:none;" aria-hidden="true">
+  <input type="file" id="import-json-input" accept=".json,application/json" style="display:none;" aria-hidden="true">
+
+  <!-- ==================================================================
+       SCRIPTS: CONTENIDO EDITORIAL Y MOTOR DE PRESENTACIÓN
+       ================================================================== -->
+  <script src="slides.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

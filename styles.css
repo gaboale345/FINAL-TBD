@@ -1,0 +1,1314 @@
+/**
+ * ====================================================================
+ * STYLES.CSS · DIRECCIÓN DE ARTE EDITORIAL Y SISTEMA DE DISEÑO
+ * ====================================================================
+ * Tipografías: 'Fraunces' (Display editorial con itálicas) e 'Inter' (Sans)
+ * Paleta: Crema cálido, medianoche ciruela, coral ajustado AA, violeta y oro.
+ * ====================================================================
+ */
+
+/* ====================================================================
+   1. IMPORT DE FUENTES (Google Fonts: Fraunces & Inter)
+   ==================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ====================================================================
+   2. VARIABLES Y SISTEMA DE TOKENS (Paleta y Escalas)
+   ==================================================================== */
+:root {
+  /* // EDITAR AQUÍ: Paleta primaria editorial */
+  --bg: #f4eee5;                    /* Crema cálido base */
+  --bg-2: #ede4d4;                  /* Crema tonal para tarjetas y paneles */
+  --bg-translucent: rgba(244, 238, 229, 0.88);
+  --ink: #1c1530;                   /* Midnight plum profundo (contraste > 14:1) */
+  --ink-soft: #4a3f5c;              /* Plum atenuado para cuerpos y subtítulos (contraste > 6.5:1) */
+  
+  /* Coral ajustado a #d43b2c para garantizar contraste WCAG AA >= 4.5:1 sobre crema */
+  --accent: #d43b2c;                /* Coral editorial calibrado AA */
+  --accent-coral: #ff5b4a;          /* Coral vibrante para bordes e ilustraciones */
+  --accent-hover: #b52c1e;          /* Hover interactivo */
+  --accent-soft: rgba(212, 59, 44, 0.12); /* Tinte translúcido */
+
+  /* Violeta editorial */
+  --accent-2: #6c4ab6;              /* Violeta contrastado (> 5.2:1) */
+  --accent-2-hover: #58399e;
+  --accent-2-soft: rgba(108, 74, 182, 0.12);
+
+  /* Acento oro */
+  --gold: #966712;                  /* Oro calibrado para legibilidad textual */
+  --gold-bright: #d4a24c;           /* Oro luminoso decorativo */
+
+  /* Líneas, bordes y sombras */
+  --line: rgba(28, 21, 48, 0.14);
+  --line-strong: rgba(28, 21, 48, 0.28);
+  --shadow-sm: 0 2px 8px rgba(28, 21, 48, 0.06);
+  --shadow-md: 0 12px 32px rgba(28, 21, 48, 0.10);
+  --shadow-lg: 0 24px 56px rgba(28, 21, 48, 0.16);
+
+  /* Sistema de espaciado estricto (4 / 8 / 16 / 24 / 32 / 48 / 64 px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+
+  /* Bordes redondeados */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Curvas y duraciones de transición */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 180ms ease;
+  --transition-normal: 340ms var(--ease-editorial);
+  --transition-slow: 600ms var(--ease-editorial);
+}
+
+/* ====================================================================
+   MODO OSCURO (Selector explícito [data-theme="dark"] y prefers-color-scheme)
+   ==================================================================== */
+:root[data-theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"] {
+  --bg: #120e1d;                    /* Midnight violet profundo */
+  --bg-2: #1c162b;                  /* Ciruela oscuro para contenedores */
+  --bg-translucent: rgba(18, 14, 29, 0.90);
+  --ink: #f7f3ec;                   /* Crema cálido luminoso (> 14:1) */
+  --ink-soft: #b8adc9;              /* Lavanda suave (> 7:1) */
+  
+  --accent: #ff6854;                /* Coral brillante legible sobre fondo oscuro */
+  --accent-coral: #ff7d6a;
+  --accent-hover: #ff8575;
+  --accent-soft: rgba(255, 104, 84, 0.20);
+
+  --accent-2: #ab8df8;              /* Violeta / lavanda luminoso */
+  --accent-2-hover: #be9bfd;
+  --accent-2-soft: rgba(171, 141, 248, 0.22);
+
+  --gold: #f2c779;                  /* Oro cálido iluminado */
+  --gold-bright: #ffd488;
+
+  --line: rgba(247, 243, 236, 0.14);
+  --line-strong: rgba(247, 243, 236, 0.28);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.70);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
+  html:not([data-theme="light"]),
+  body:not([data-theme="light"]) {
+    --bg: #120e1d;
+    --bg-2: #1c162b;
+    --bg-translucent: rgba(18, 14, 29, 0.90);
+    --ink: #f7f3ec;
+    --ink-soft: #b8adc9;
+    
+    --accent: #ff6854;
+    --accent-coral: #ff7d6a;
+    --accent-hover: #ff8575;
+    --accent-soft: rgba(255, 104, 84, 0.20);
+
+    --accent-2: #ab8df8;
+    --accent-2-hover: #be9bfd;
+    --accent-2-soft: rgba(171, 141, 248, 0.22);
+
+    --gold: #f2c779;
+    --gold-bright: #ffd488;
+
+    --line: rgba(247, 243, 236, 0.14);
+    --line-strong: rgba(247, 243, 236, 0.28);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.40);
+    --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.70);
+  }
+}
+
+/* ====================================================================
+   3. RESET Y TIPOGRAFÍA BASE
+   ==================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  user-select: none;
+}
+
+/* Textura radial sutil en el fondo global */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 15% 20%, var(--accent-soft) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, var(--accent-2-soft) 0%, transparent 45%);
+  z-index: 0;
+}
+
+/* Tipografía de títulos con Fraunces */
+h1, h2, h3, .font-display {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+/* Énfasis editorial con acento violeta */
+em {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent-2);
+}
+
+/* ====================================================================
+   4. ESTADOS DE INTERACCIÓN GLOBALES (Accesibilidad WCAG 2.1 AA)
+   ==================================================================== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+button:disabled, .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ====================================================================
+   5. CONTENEDOR PRINCIPAL Y ENTORNO LETTERBOXING 16:9
+   ==================================================================== */
+#presentation-app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  padding: var(--space-3);
+}
+
+/* Barra superior de progreso con gradiente coral -> violeta */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 4px;
+  background: var(--line);
+  z-index: 100;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 7.7%; /* 1/13 inicial */
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+  transition: width var(--transition-normal);
+}
+
+/* HUD Superior */
+.hud-header {
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  z-index: 20;
+}
+
+.hud-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--ink);
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  letter-spacing: 0.15em;
+}
+
+/* Dot pulsante activo en HUD */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 0 0 rgba(212, 59, 44, 0.7);
+  animation: pulse-ring 2s infinite cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 59, 44, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(212, 59, 44, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 59, 44, 0); }
+}
+
+.hud-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hud-btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.hud-btn:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.hud-btn:active {
+  transform: translateY(0);
+}
+
+/* Tecla de atajo dentro del botón */
+.kbd-shortcut {
+  font-size: 0.7rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--line);
+  color: var(--ink-soft);
+  font-family: monospace;
+}
+
+.hud-btn:hover .kbd-shortcut {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--bg);
+}
+
+/* ====================================================================
+   6. ESCENARIO DE SLIDE (16:9 EXACTO CON LETTERBOXING)
+   ==================================================================== */
+.stage-wrapper {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+}
+
+.slide-deck {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 130px);
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: flex;
+}
+
+/* Diapositiva individual */
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: clamp(var(--space-4), 4.5vw, var(--space-7));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(var(--space-4), 4vw, var(--space-7));
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(28px);
+  transition: opacity var(--transition-normal), transform var(--transition-normal), visibility var(--transition-normal);
+  background: var(--bg);
+}
+
+/* Slide activa */
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  z-index: 5;
+}
+
+/* Layout específico de portada: 1.2fr 1fr */
+.slide--portada {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+/* Layout inverso: para diapositivas impares (visual a la izquierda) */
+.slide--reverse .slide-content {
+  order: 2;
+}
+.slide--reverse .slide-visual-zone {
+  order: 1;
+}
+
+/* ====================================================================
+   7. TIPOGRAFÍA Y JERARQUÍA EDITORIAL
+   ==================================================================== */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.title-portada {
+  font-size: clamp(2.8rem, 5.8vw, 5.2rem);
+  line-height: 0.95;
+  color: var(--ink);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.03em;
+}
+
+.title-content {
+  font-size: clamp(2.0rem, 3.8vw, 3.4rem);
+  line-height: 1.02;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.slide-body {
+  font-size: clamp(0.92rem, 1.1vw, 1.06rem);
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 58ch; /* Máximo ~80 palabras, legible en <15s */
+  margin-bottom: var(--space-4);
+}
+
+/* Subtítulo de portada */
+.slide-subtitle {
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  font-weight: 400;
+  color: var(--accent-2);
+  margin-bottom: var(--space-4);
+  line-height: 1.35;
+}
+
+/* Lista estructurada de datos numerados */
+.editorial-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.editorial-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: clamp(0.9rem, 1.05vw, 1.02rem);
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.editorial-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  min-width: 28px;
+}
+
+/* Bloque inferior de integrantes en portada */
+.portada-meta {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-strong);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.portada-meta-block h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.portada-meta-block p {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+/* ====================================================================
+   8. ZONA VISUAL: SVG PLACEHOLDER O IMAGEN LOCAL
+   ==================================================================== */
+.slide-visual-zone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor del dropzone interactivo */
+.dropzone-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  background: var(--bg-2);
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Feedback al hacer hover sobre dropzone */
+.dropzone-container:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+/* Estado Drag Over (5.1: Borde punteado coral y fondo coral translúcido) */
+.dropzone-container.is-dragover {
+  border: 2px dashed var(--accent);
+  background-color: var(--accent-soft);
+  transform: scale(1.015);
+}
+
+/* SVG placeholder */
+.svg-wrapper {
+  width: 85%;
+  height: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity var(--transition-fast);
+}
+
+.editorial-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: contain;
+}
+
+/* Overlay sutil para subir imagen sobre placeholder */
+.dropzone-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 21, 48, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  opacity: 0;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: opacity var(--transition-fast);
+  border-radius: var(--radius-md);
+  z-index: 10;
+}
+
+.dropzone-container:hover .dropzone-overlay {
+  opacity: 1;
+}
+
+.dropzone-overlay-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.dropzone-overlay-hint {
+  font-size: 0.74rem;
+  opacity: 0.85;
+  letter-spacing: 0.05em;
+}
+
+/* Contenedor de imagen cargada */
+.image-preview-wrapper {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: var(--bg-2);
+  z-index: 8;
+  overflow: hidden;
+}
+
+.image-preview-wrapper.is-visible {
+  display: block;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Por defecto cover */
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+  opacity: 0;
+}
+
+.uploaded-image.is-loaded {
+  opacity: 1;
+}
+
+/* Modos de ajuste (cover / contain / center) */
+.uploaded-image.fit-cover { object-fit: cover; }
+.uploaded-image.fit-contain { object-fit: contain; background: #000; }
+.uploaded-image.fit-center { object-fit: none; object-position: center; }
+
+/* Botonera flotante on-hover sobre imagen */
+.image-toolbar {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  gap: 6px;
+  background: rgba(28, 21, 48, 0.82);
+  backdrop-filter: blur(8px);
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all var(--transition-fast);
+  z-index: 15;
+}
+
+.dropzone-container:hover .image-toolbar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toolbar-btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  transition: background var(--transition-fast);
+}
+
+.toolbar-btn:hover {
+  background: var(--accent);
+}
+
+.toolbar-btn.btn-remove:hover {
+  background: #e63946;
+}
+
+/* Badge discreto: "Imagen cargada" */
+.image-status-badge {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(28, 21, 48, 0.75);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  z-index: 15;
+}
+
+/* Pie de foto / caption opcional */
+.image-caption {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+/* Skeleton / loader mientras procesa compresión */
+.skeleton-loader {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--bg-2) 25%, var(--bg) 50%, var(--bg-2) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s infinite;
+  display: none;
+  z-index: 20;
+}
+
+.skeleton-loader.is-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes skeleton-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ====================================================================
+   9. ANIMACIONES INTERNAS SVG Y TRANSICIÓN STAGGER REVEAL
+   ==================================================================== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dashoffset-anim {
+  0% { stroke-dashoffset: 400; }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -400; }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.svg-spin {
+  transform-origin: center;
+  animation: spin 30s linear infinite;
+}
+
+.svg-dash {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dashoffset-anim 16s ease-in-out infinite;
+}
+
+.svg-float {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+.svg-pulse {
+  animation: pulse-ring 2.5s infinite;
+}
+
+/* Stagger escalonado en hijos .reveal (0.10s -> 0.22s -> 0.34s -> 0.46s -> 0.58s -> 0.70s) */
+.slide.is-active .reveal:nth-child(1) { animation: revealFadeIn 0.5s 0.10s var(--ease-editorial) forwards; }
+.slide.is-active .reveal:nth-child(2) { animation: revealFadeIn 0.5s 0.22s var(--ease-editorial) forwards; }
+.slide.is-active .reveal:nth-child(3) { animation: revealFadeIn 0.5s 0.34s var(--ease-editorial) forwards; }
+.slide.is-active .reveal:nth-child(4) { animation: revealFadeIn 0.5s 0.46s var(--ease-editorial) forwards; }
+.slide.is-active .reveal:nth-child(5) { animation: revealFadeIn 0.5s 0.58s var(--ease-editorial) forwards; }
+.slide.is-active .reveal:nth-child(6) { animation: revealFadeIn 0.5s 0.70s var(--ease-editorial) forwards; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@keyframes revealFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====================================================================
+   10. CONTROLES LATERALES (DOTS) Y FOOTER DE NAVEGACIÓN
+   ==================================================================== */
+/* Dots laterales clicables */
+.lateral-dots {
+  position: fixed;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 30;
+}
+
+.dot-btn {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: all var(--transition-fast);
+}
+
+.dot-btn:hover {
+  background: var(--ink);
+  transform: scale(1.35);
+}
+
+.dot-btn.is-active {
+  background: var(--accent);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Tooltip al hacer hover sobre un dot */
+.dot-btn::before {
+  content: attr(data-title);
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.dot-btn:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Footer central de navegación */
+.hud-footer {
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  z-index: 20;
+}
+
+.footer-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav-arrow-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.nav-arrow-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+
+/* Contador inferior con tipografía itálica */
+.slide-counter {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.slide-counter span {
+  color: var(--accent-2);
+}
+
+.keyboard-hint {
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ====================================================================
+   11. OVERLAYS Y MODALES (ÍNDICE, CUADRÍCULA, PRESENTADOR, CUSTOM DIALOG)
+   ==================================================================== */
+/* Overlay base */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 21, 48, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all var(--transition-normal);
+  padding: var(--space-4);
+}
+
+[data-theme="dark"] .modal-overlay {
+  background: rgba(8, 6, 14, 0.82);
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-panel {
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 860px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.95) translateY(12px);
+  transition: transform var(--transition-normal);
+}
+
+.modal-overlay.is-open .modal-panel {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+
+.modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.modal-body {
+  padding: var(--space-5);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Lista de índice clicable */
+.index-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.index-item-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.index-item-btn:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+  transform: translateX(4px);
+}
+
+.index-item-btn.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.index-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-right: var(--space-3);
+  color: var(--accent-2);
+}
+
+.index-item-btn:hover .index-num {
+  color: var(--gold-bright);
+}
+
+/* Vista en Cuadrícula (Grid View G) */
+.grid-view-panel {
+  max-width: 1100px;
+}
+
+.grid-slides-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.grid-card {
+  aspect-ratio: 16 / 9;
+  background: var(--bg-2);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.grid-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.grid-card.is-current {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  background: var(--accent-soft);
+}
+
+.grid-card-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--accent-2);
+}
+
+.grid-card-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Modo Presentador (P) */
+.presenter-panel {
+  max-width: 760px;
+}
+
+.presenter-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.presenter-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.presenter-timer {
+  font-family: 'Fraunces', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ====================================================================
+   12. SISTEMA DE TOASTS CUSTOM (Nunca alert)
+   ==================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: 300;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background: var(--ink);
+  color: var(--bg);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 380px;
+  animation: toastIn 0.3s var(--ease-editorial);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border-left: 4px solid var(--accent);
+}
+
+.toast.toast-warning { border-left-color: var(--gold-bright); }
+.toast.toast-error { border-left-color: #e63946; }
+.toast.toast-success { border-left-color: #2a9d8f; }
+
+[data-theme="dark"] .toast {
+  background: var(--bg-2);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-left: 4px solid var(--accent);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal Custom de Confirmación y Edición */
+.dialog-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.dialog-label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.dialog-input, .dialog-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.dialog-input:focus, .dialog-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.btn-primary {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-danger {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: #d90429;
+  border: 1px solid #d90429;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ====================================================================
+   13. ACCESIBILIDAD PREFERS-REDUCED-MOTION
+   ==================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .svg-spin, .svg-dash, .svg-float, .svg-pulse {
+    animation: none !important;
+  }
+  .slide, .reveal {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .slide:not(.is-active) {
+    display: none !important;
+  }
+}
+
+/* ====================================================================
+   14. RESPONSIVE DESIGN (375px, 768px, 1280px+)
+   ==================================================================== */
+/* Tablet (768px – 1279px) */
+@media (max-width: 1279px) {
+  .slide-deck {
+    max-height: calc(100vh - 110px);
+  }
+  .slide {
+    padding: var(--space-5);
+    gap: var(--space-4);
+  }
+  .lateral-dots {
+    display: none; /* Ocultar dots laterales en tablet/móvil */
+  }
+  .portada-meta {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+  }
+}
+
+/* Mobile (< 768px - ej. 375px) */
+@media (max-width: 767px) {
+  html, body {
+    overflow-y: auto;
+    height: auto;
+  }
+  #presentation-app {
+    height: auto;
+    min-height: 100vh;
+    padding: var(--space-2);
+  }
+  .hud-header {
+    padding: var(--space-2);
+  }
+  .hud-btn span:not(.kbd-shortcut) {
+    display: none; /* Icono o texto abreviado */
+  }
+  .slide-deck {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: calc(100vh - 120px);
+    max-height: none;
+    overflow-y: auto;
+  }
+  .slide {
+    position: relative;
+    inset: auto;
+    grid-template-columns: 1fr !important; /* Colapso estricto a 1 columna */
+    gap: var(--space-4);
+    padding: var(--space-4);
+    opacity: 0;
+    display: none;
+  }
+  .slide.is-active {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+  }
+  .slide-reverse .slide-content { order: 1; }
+  .slide-reverse .slide-visual-zone { order: 2; }
+  
+  /* Restricción de altura en imágenes en mobile para no romper layout (Sección 7) */
+  .slide-visual-zone {
+    max-height: 34vh;
+  }
+  .dropzone-container {
+    min-height: 220px;
+  }
+  .keyboard-hint {
+    display: none;
+  }
+}
